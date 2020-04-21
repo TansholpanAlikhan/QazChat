@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1009495099573",
+    "firebase_url": "https://qazchat-71447.firebaseio.com",
+    "project_id": "qazchat-71447",
+    "storage_bucket": "qazchat-71447.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009495099573:android:6cdb80a42b9fb3cc3a96fc",
+        "android_client_info": {
+          "package_name": "com.example.qazchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009495099573-i6m6vfbmanpmnebq550vn3ea1abvd5d8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qazchat",
+            "certificate_hash": "45e78961d9fbfbdfadb77b79b3e56d441601befb"
+          }
+        },
+        {
+          "client_id": "1009495099573-06hjiooc4kbo4s7l91bgd31c7eutgs3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnczogSaDhB0ocvfmGsyFLqmjs5WonA8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009495099573-06hjiooc4kbo4s7l91bgd31c7eutgs3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
