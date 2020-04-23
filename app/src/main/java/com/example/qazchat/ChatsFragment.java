@@ -28,10 +28,6 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ChatsFragment extends Fragment {
 
     private Toolbar toolbar;
@@ -53,17 +49,19 @@ public class ChatsFragment extends Fragment {
         // Inflate the layout for this fragment
         privateChatsView = inflater.inflate(R.layout.fragment_chats, container, false);
         mAuth = FirebaseAuth.getInstance();
-        currentUserID = mAuth.getCurrentUser().getUid();
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         chatList = privateChatsView.findViewById(R.id.chats_list);
         chatList.setLayoutManager(new LinearLayoutManager(getContext()));
-        chatsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
         return privateChatsView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        if(mAuth.getCurrentUser()!=null){
+            currentUserID = mAuth.getCurrentUser().getUid();
+            chatsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
+        }
         FirebaseRecyclerOptions<Contacts> options =
                 new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(chatsRef,Contacts.class)

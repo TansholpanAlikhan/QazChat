@@ -123,7 +123,7 @@ public class ChatActivity extends AppCompatActivity {
                             startActivityForResult(intent.createChooser(intent,"Select PDF File"),438);
                         }
                         else if(i==2){
-                            checker = "docx";
+                            checker = "doc";
                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                             intent.setType("application/msword");
                             startActivityForResult(intent.createChooser(intent,"Select MS Word File"),438);

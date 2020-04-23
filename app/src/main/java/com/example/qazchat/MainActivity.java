@@ -127,9 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         if(item.getItemId()==R.id.main_log_out_option){
-            UpdateUserStatus("offline");
-            mAuth.signOut();
-            SendUserToLoginActivity();
+            LogOut();
         }
         if(item.getItemId()== R.id.main_find_friends_option){
             Intent findFriendsIntent = new Intent(MainActivity.this,FindFriendsActivity.class);
@@ -200,8 +198,35 @@ public class MainActivity extends AppCompatActivity {
         onlineState.put("time",saveCurrentTime);
         onlineState.put("date",saveCurrentDate);
         onlineState.put("state",state);
+        if(mAuth.getCurrentUser()!=null) {
+            currentUserID = mAuth.getCurrentUser().getUid();
+            rootRef.child("Users").child(currentUserID).child("userState")
+                    .updateChildren(onlineState);
+        }
+    }
+
+    private void LogOut(){
+        String saveCurrentTime,saveCurrentDate;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate = currentDate.format(calendar.getTime());
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+        saveCurrentTime = currentTime.format(calendar.getTime());
+        HashMap<String, Object> onlineState = new HashMap<>();
+        onlineState.put("time",saveCurrentTime);
+        onlineState.put("date",saveCurrentDate);
+        onlineState.put("state","offline");
         currentUserID = mAuth.getCurrentUser().getUid();
         rootRef.child("Users").child(currentUserID).child("userState")
-                .updateChildren(onlineState);
+                .updateChildren(onlineState).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isComplete()){
+                    mAuth.signOut();
+                    SendUserToLoginActivity();
+                }
+            }
+        });
+
     }
 }

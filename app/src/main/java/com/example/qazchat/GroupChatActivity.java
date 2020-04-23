@@ -50,7 +50,13 @@ public class GroupChatActivity extends AppCompatActivity {
         GetUserInfo();
         currentGroupName = getIntent().getExtras().get("groupName").toString();
         mGroupsRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(currentGroupName);
-        mSendMessageButton.setOnClickListener(new View.OnClickListener() {
+        mToolbar = findViewById(R.id.group_chat_bar_layout);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(currentGroupName);
+        mSendMessageButton = findViewById(R.id.send_message_button);
+        mUserMessageInput = findViewById(R.id.input_group_message);
+        mScrollView = findViewById(R.id.my_scroll_view);
+        mDisplayTextMessage = findViewById(R.id.group_chat_text_display);   mSendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SaveMessageInfoToDatabase();
@@ -58,13 +64,12 @@ public class GroupChatActivity extends AppCompatActivity {
                 mUserMessageInput.setText("");
             }
         });
-        InitializeFields();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGroupMessageKeyRef.addChildEventListener(new ChildEventListener() {
+        mGroupsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if(dataSnapshot.exists()){
@@ -101,7 +106,7 @@ public class GroupChatActivity extends AppCompatActivity {
             String chatMessage = (String) ((DataSnapshot)iterator.next()).getValue();
             String chatName = (String) ((DataSnapshot)iterator.next()).getValue();
             String chatTime = (String) ((DataSnapshot)iterator.next()).getValue();
-            mDisplayTextMessage.append(chatName+":\n"+chatMessage+"\n"+chatTime+"   "+chatDate+"\n\n\n");
+            mDisplayTextMessage.append(chatName+":\n"+chatMessage+"\n"+chatTime+"   "+chatDate+"\n\n");
             mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
     }
@@ -118,7 +123,7 @@ public class GroupChatActivity extends AppCompatActivity {
             mCurrentDate = currentDateFormat.format(calForDate.getTime());
             Calendar calForTime = Calendar.getInstance();
             SimpleDateFormat currentTimeFormat = new SimpleDateFormat("hh:mm");
-            mCurrentDate = currentTimeFormat.format(calForTime.getTime());
+            mCurrentTime = currentTimeFormat.format(calForTime.getTime());
             HashMap<String, Object> groupMessageKey = new HashMap<>();
             mGroupsRef.updateChildren(groupMessageKey);
             mGroupMessageKeyRef = mGroupsRef.child(messageKey);
@@ -145,16 +150,5 @@ public class GroupChatActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void InitializeFields() {
-        mToolbar = findViewById(R.id.appBarLayout);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(currentGroupName);
-
-        mSendMessageButton = findViewById(R.id.send_message_button);
-        mUserMessageInput = findViewById(R.id.input_group_message);
-        mScrollView = findViewById(R.id.my_scroll_view);
-        mDisplayTextMessage = findViewById(R.id.group_chat_text_display);
     }
 }
